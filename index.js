@@ -67,14 +67,14 @@ app.delete('/tasks/:id', async (req, res) => {
     res.send(result)
 })
 
-app.post('/completedTask/comments', async (req, res) => {
-    const task = new Comments(req.body);
-    const result = await task.save();
+app.post('/comments', async (req, res) => {
+    const comment = new Comments(req.body);
+    const result = await comment.save();
     res.send(result)
 })
 
-app.get('/completedTask/comments/:id', async (req, res) => {
-    const result = await Comments.findOne({ _id: req.params.id });
+app.get('/allComments', async (req, res) => {
+    const result = await Comments.find({ taskId: req.query.taskId });
     res.send(result)
 })
 

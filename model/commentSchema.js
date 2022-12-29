@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
     taskId: String,
-    comment: String,
+    commentBody: String
 })
 
 const Comments = mongoose.model('comments', commentSchema);
