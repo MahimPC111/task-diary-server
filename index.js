@@ -52,6 +52,15 @@ app.patch('/tasks/:id', async (req, res) => {
     res.send(result)
 })
 
+app.delete('/tasks/:id', async (req, res) => {
+    const result = await Tasks.deleteOne({ _id: req.params.id })
+    res.send(result)
+})
+
+
+
+
+
 app.get('/', (req, res) => {
     res.send('Great! Task diary server is running.')
 })
