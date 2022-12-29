@@ -68,13 +68,13 @@ app.delete('/tasks/:id', async (req, res) => {
 })
 
 app.post('/completedTask/comments', async (req, res) => {
-    const task = new Tasks(req.body);
+    const task = new Comments(req.body);
     const result = await task.save();
     res.send(result)
 })
 
 app.get('/completedTask/comments/:id', async (req, res) => {
-    const result = await Tasks.findOne({ _id: req.params.id });
+    const result = await Comments.findOne({ _id: req.params.id });
     res.send(result)
 })
 
