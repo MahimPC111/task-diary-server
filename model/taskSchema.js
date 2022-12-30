@@ -5,6 +5,8 @@ const taskSchema = new mongoose.Schema({
     details: String,
     task_image: String,
     status: String,
+    published_date: String,
+    email: String
 })
 
 const Tasks = mongoose.model('myTasks', taskSchema);

@@ -16,31 +16,45 @@ const DB = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0
 
 mongoose.connect(DB, {
     useNewUrlParser: true,
-    // userCreateIndex: true,
     useUnifiedTopology: true,
-    // userFindAndModify: false
 }).then(() => {
     console.log('Connection successful')
 }).catch(err => console.log(err.name, err.message))
 
 
-
+// posting new tasks
 app.post('/tasks', async (req, res) => {
     const task = new Tasks(req.body);
     const result = await task.save();
     res.send(result)
 })
 
-app.get('/tasks', async (req, res) => {
-    const result = await Tasks.find({ status: req.query.status });
+// getting all tasks for media route
+app.get('/allTasks', async (req, res) => {
+    const query = {
+        email: req.query.email
+    }
+    const result = await Tasks.find(query);
     res.send(result)
 })
 
+// getting tasks based on status
+app.get('/tasks', async (req, res) => {
+    const query = {
+        email: req.query.email,
+        status: req.query.status
+    }
+    const result = await Tasks.find(query);
+    res.send(result)
+})
+
+// getting a single task
 app.get('/tasks/:id', async (req, res) => {
     const result = await Tasks.findOne({ _id: req.params.id });
     res.send(result)
 })
 
+// update a task
 app.patch('/tasks/:id', async (req, res) => {
     const updatedTask = {
         $set: {
@@ -52,6 +66,7 @@ app.patch('/tasks/:id', async (req, res) => {
     res.send(result)
 })
 
+// modify task status
 app.patch('/completedTasks/:id', async (req, res) => {
     const completedTask = {
         $set: {
@@ -62,17 +77,20 @@ app.patch('/completedTasks/:id', async (req, res) => {
     res.send(result)
 })
 
+// delete a task
 app.delete('/tasks/:id', async (req, res) => {
     const result = await Tasks.deleteOne({ _id: req.params.id })
     res.send(result)
 })
 
+// post comments of a task
 app.post('/comments', async (req, res) => {
     const comment = new Comments(req.body);
     const result = await comment.save();
     res.send(result)
 })
 
+// getting all comments of a task
 app.get('/allComments', async (req, res) => {
     const result = await Comments.find({ taskId: req.query.taskId });
     res.send(result)
@@ -80,7 +98,7 @@ app.get('/allComments', async (req, res) => {
 
 
 
-
+// checking server
 app.get('/', (req, res) => {
     res.send('Great! Task diary server is running.')
 })
